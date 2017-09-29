@@ -27,11 +27,11 @@ class Client
         ));
     }
 
-    public function authenticate(string $username, string $password)
+    public function setApiKey(string $apiKey)
     {
         $this->builder->removePlugin(Authentication::class);
 
-        $authenticationPlugin = new Authentication(new BasicAuth($username, $password));
+        $authenticationPlugin = new Authentication(new BasicAuth($apiKey, ''));
         $this->builder->addPlugin($authenticationPlugin);
     }
 

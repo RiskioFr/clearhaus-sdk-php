@@ -18,7 +18,7 @@ SDK for Clearhaus API written in PHP and decoupled from any HTTP messaging clien
 use Clearhaus\Client;
 
 $client = new Client();
-$client->authenticate($username, $password);
+$client->setApiKey($apiKey);
 
 $client->authorize([
     'amount' => 2050,
