@@ -1,0 +1,41 @@
+{
+  "name": "clearhaus/sdk",
+  "type": "library",
+  "description": "Clearhaus PHP SDK",
+  "keywords": [
+    "clearhaus",
+    "cloud",
+    "payment",
+    "transaction",
+    "gateway",
+    "api"
+  ],
+  "homepage": "https://github.com/RiskioFr/clearhaus-sdk-php",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Nicolas Eeckeloo",
+      "email": "neeckeloo@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Clearhaus\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Clearhaus\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "php": "^7.0",
+    "php-http/client-common": "^1.3",
+    "php-http/discovery": "^1.0",
+    "php-http/httplug": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.0"
+  }
+}
