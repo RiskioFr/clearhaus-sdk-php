@@ -10,7 +10,10 @@ SDK for Clearhaus API written in PHP and decoupled from any HTTP messaging clien
 ## Requirements
 
 * PHP 7.0+
-* [php-http/httplug ^1.1](https://github.com/php-http/httplug)
+* [php-http/client-common ^1.3](https://github.com/php-http/client-common)
+* [php-http/discovery ^1.10](https://github.com/php-http/discovery)
+* [php-http/httplug ^1.0](https://github.com/php-http/httplug)
+
 
 ## Usage
 
@@ -32,3 +35,19 @@ $client->authorize([
     ],
 ]);
 ```
+
+## Testing
+
+``` bash
+$ vendor/bin/phpspec run
+```
+
+## Credits
+
+- [Nicolas Eeckeloo](https://github.com/neeckeloo)
+- [All Contributors](https://github.com/RiskioFr/clearhaus-sdk-php/contributors)
+
+
+## License
+
+The MIT License (MIT). Please see [License File](https://github.com/RiskioFr/clearhaus-sdk-php/blob/master/LICENSE) for more information.
