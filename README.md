@@ -25,14 +25,28 @@ You can install the module from command line:
 $ composer require clearhaus/sdk
 ```
 
-## Usage
+## Documentation
+
+### Authentication
+
+For authentication, you must provide an API key that you will find in your account:
 
 ```php
 use Clearhaus\Client;
 
 $client = new Client();
 $client->setApiKey($apiKey);
+```
 
+### Charge a cardholder
+
+To charge a cardholder you first have to reserve money on his bank account. Next you can transfer money from his bank account to your merchant bank account.
+
+#### Reserve money
+
+The following will reserve EUR 20.50 (2050 cents) on cardholder’s bank account:
+
+```php
 $client->authorize([
     'amount' => 2050,
     'currency' => 'EUR',
