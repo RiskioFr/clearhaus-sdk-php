@@ -39,6 +39,7 @@
   },
   "require-dev": {
     "phpspec/phpspec": "^4.0",
+    "phpspec/prophecy": "^1.6.2",
     "zendframework/zend-diactoros": "^1.6"
   }
 }
