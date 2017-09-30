@@ -14,6 +14,16 @@ SDK for Clearhaus API written in PHP and decoupled from any HTTP messaging clien
 * [php-http/discovery ^1.10](https://github.com/php-http/discovery)
 * [php-http/httplug ^1.0](https://github.com/php-http/httplug)
 
+## Installation
+
+Clearhaus SDK only officially supports installation through Composer. For Composer documentation, please refer to
+[getcomposer.org](http://getcomposer.org/).
+
+You can install the module from command line:
+
+```sh
+$ composer require clearhaus/sdk
+```
 
 ## Usage
 
