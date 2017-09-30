@@ -42,8 +42,10 @@ class Client
 
     private function post(string $path, array $params, array $headers = []) : array
     {
+        $httpClient = $this->builder->build();
+
         $headers['Content-Type'] = 'application/x-www-form-urlencoded';
-        $response = $this->builder->getHttpClient()->post($path, $headers, $params);
+        $response = $httpClient->post($path, $headers, $params);
 
         return ResponseMediator::getContent($response);
     }

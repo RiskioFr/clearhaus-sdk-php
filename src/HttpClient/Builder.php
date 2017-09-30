@@ -11,7 +11,7 @@ use Http\Discovery\MessageFactoryDiscovery;
 use Http\Message\MessageFactory;
 use Http\Message\RequestFactory;
 
-final class Builder
+class Builder
 {
     /**
      * The object that sends HTTP messages.
@@ -59,7 +59,7 @@ final class Builder
         $this->requestFactory = $requestFactory ?: MessageFactoryDiscovery::find();
     }
 
-    public function getHttpClient() : HttpMethodsClient
+    public function build() : HttpMethodsClient
     {
         if ($this->httpClientModified) {
             $this->httpClientModified = false;
@@ -81,9 +81,9 @@ final class Builder
 
     public function removePlugin(string $fqcn)
     {
-        foreach ($this->plugins as $idx => $plugin) {
+        foreach ($this->plugins as $index => $plugin) {
             if ($plugin instanceof $fqcn) {
-                unset($this->plugins[$idx]);
+                unset($this->plugins[$index]);
                 $this->httpClientModified = true;
             }
         }
@@ -110,7 +110,10 @@ final class Builder
         if (!isset($this->headers[$header])) {
             $this->headers[$header] = $headerValue;
         } else {
-            $this->headers[$header] = array_merge((array)$this->headers[$header], array($headerValue));
+            $this->headers[$header] = array_merge(
+                (array) $this->headers[$header],
+                [$headerValue]
+            );
         }
 
         $this->removePlugin(Plugin\HeaderAppendPlugin::class);
