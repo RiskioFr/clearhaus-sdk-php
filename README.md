@@ -11,7 +11,7 @@ SDK for Clearhaus API written in PHP and decoupled from any HTTP messaging clien
 
 * PHP 7.0+
 * [php-http/client-common ^1.3](https://github.com/php-http/client-common)
-* [php-http/discovery ^1.10](https://github.com/php-http/discovery)
+* [php-http/discovery ^1.0](https://github.com/php-http/discovery)
 * [php-http/httplug ^1.0](https://github.com/php-http/httplug)
 
 ## Installation
