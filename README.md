@@ -3,6 +3,8 @@ Clearhaus PHP SDK
 
 SDK for Clearhaus API written in PHP and decoupled from any HTTP messaging client using HTTPlug.
 
+You can sign up for a Clearhaus account at https://www.clearhaus.com/.
+
 [![Build Status](https://img.shields.io/travis/RiskioFr/clearhaus-sdk-php.svg?style=flat)](http://travis-ci.org/RiskioFr/clearhaus-sdk-php)
 [![Latest Stable Version](http://img.shields.io/packagist/v/riskio/clearhaus-sdk-php.svg?style=flat)](https://packagist.org/packages/riskio/clearhaus-sdk-php)
 [![Total Downloads](http://img.shields.io/packagist/dt/riskio/clearhaus-sdk-php.svg?style=flat)](https://packagist.org/packages/riskio/clearhaus-sdk-php)
@@ -26,6 +28,8 @@ $ composer require clearhaus/sdk
 ```
 
 ## Documentation
+
+Please see http://docs.gateway.clearhaus.com for up-to-date documentation.
 
 ### Authentication
 

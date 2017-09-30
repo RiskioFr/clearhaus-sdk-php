@@ -2,6 +2,7 @@
 
 namespace Clearhaus;
 
+use Clearhaus\Exception\MissingArgumentException;
 use Clearhaus\HttpClient\Builder;
 use Clearhaus\HttpClient\Message\ResponseMediator;
 use Clearhaus\HttpClient\Plugin\Authentication;
@@ -37,6 +38,10 @@ class Client
 
     public function authorize(array $params) : array
     {
+        if (!isset($params['amount'], $params['currency'], $params['ip'], $params['card'])) {
+            throw new MissingArgumentException(['amount', 'currency', 'ip', 'card']);
+        }
+
         return $this->post('/authorizations', $params);
     }
 

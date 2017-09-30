@@ -3,6 +3,7 @@
 namespace spec\Clearhaus;
 
 use Clearhaus\Client;
+use Clearhaus\Exception\MissingArgumentException;
 use Clearhaus\HttpClient\Builder;
 use Clearhaus\HttpClient\Plugin\Authentication;
 use Http\Client\Common\HttpMethodsClient;
@@ -35,7 +36,12 @@ class ClientSpec extends ObjectBehavior
 
     function it_should_create_authorization(Builder $builder, HttpMethodsClient $client)
     {
-        $authorizeParams = [];
+        $authorizeParams = [
+            'amount' => 2500,
+            'currency' => 'EUR',
+            'ip' => '1.1.1.1',
+            'card' => [],
+        ];
 
         $builder->addPlugin(Argument::type(Plugin::class))->willReturn(null);
         $builder->build()->willReturn($client);
@@ -55,9 +61,55 @@ class ClientSpec extends ObjectBehavior
 
         $httpResponse = $this->createHttpResponse($responseBodyAsArray);
 
-        $client->post(Argument::type('string'), Argument::type('array'), [])->willReturn($httpResponse);
+        $client
+            ->post(Argument::type('string'), Argument::type('array'), $authorizeParams)
+            ->willReturn($httpResponse);
 
         $this->authorize($authorizeParams)->shouldReturn($responseBodyAsArray);
+    }
+
+    function it_should_not_create_authorization_without_amount()
+    {
+        $authorizeParams = [
+            'currency' => 'EUR',
+            'ip' => '1.1.1.1',
+            'card' => [],
+        ];
+
+        $this->shouldThrow(MissingArgumentException::class)->duringAuthorize($authorizeParams);
+    }
+
+    function it_should_not_create_authorization_without_currency()
+    {
+        $authorizeParams = [
+            'amount' => 2500,
+            'ip' => '1.1.1.1',
+            'card' => [],
+        ];
+
+        $this->shouldThrow(MissingArgumentException::class)->duringAuthorize($authorizeParams);
+    }
+
+    function it_should_not_create_authorization_without_ip_address()
+    {
+        $authorizeParams = [
+            'amount' => 2500,
+            'currency' => 'EUR',
+            'card' => [],
+        ];
+
+        $this->shouldThrow(MissingArgumentException::class)->duringAuthorize($authorizeParams);
+    }
+
+    function it_should_not_create_authorization_without_card()
+    {
+        $authorizeParams = [
+            'amount' => 2500,
+            'currency' => 'EUR',
+            'ip' => '1.1.1.1',
+        ];
+
+        $this->shouldThrow(MissingArgumentException::class)->duringAuthorize($authorizeParams);
     }
 
     private function createHttpResponse(array $body) : Response
