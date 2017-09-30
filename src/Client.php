@@ -6,6 +6,7 @@ use Clearhaus\Exception\MissingArgumentException;
 use Clearhaus\HttpClient\Builder;
 use Clearhaus\HttpClient\Message\ResponseMediator;
 use Clearhaus\HttpClient\Plugin\Authentication;
+use Clearhaus\HttpClient\Plugin\ClearhausExceptionThrower;
 use Http\Client\Common\Plugin;
 use Http\Discovery\UriFactoryDiscovery;
 use Http\Message\Authentication\BasicAuth;
@@ -23,6 +24,7 @@ class Client
 
         $uri = $test ? self::TEST_ENDPOINT : self::LIVE_ENDPOINT;
 
+        $builder->addPlugin(new ClearhausExceptionThrower());
         $builder->addPlugin(new Plugin\AddHostPlugin(
             UriFactoryDiscovery::find()->createUri($uri)
         ));
