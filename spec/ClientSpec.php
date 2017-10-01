@@ -36,7 +36,7 @@ class ClientSpec extends ObjectBehavior
 
     function it_should_create_authorization(Builder $builder, HttpMethodsClient $client)
     {
-        $authorizeParams = [
+        $params = [
             'amount' => 2500,
             'currency' => 'EUR',
             'ip' => '1.1.1.1',
@@ -48,68 +48,281 @@ class ClientSpec extends ObjectBehavior
 
         $responseBodyAsArray = [
             'id' => '84412a34-fa29-4369-a098-0165a80e8fda',
-            'status' => [
-                'code' => 20000,
-            ],
-            'processed_at' => '2014-07-09T09:53:41+00:00',
-            '_links' => [
-                'captures' => [
-                    'href' => '/authorizations/84412a34-fa29-4369-a098-0165a80e8fda/captures',
-                ],
-            ],
         ];
 
-        $httpResponse = $this->createHttpResponse($responseBodyAsArray);
-
         $client
-            ->post(Argument::type('string'), Argument::type('array'), $authorizeParams)
-            ->willReturn($httpResponse);
+            ->post(Argument::type('string'), Argument::type('array'), $params)
+            ->willReturn($this->createHttpResponse($responseBodyAsArray));
 
-        $this->authorize($authorizeParams)->shouldReturn($responseBodyAsArray);
+        $this->authorize($params)->shouldReturn($responseBodyAsArray);
     }
 
     function it_should_not_create_authorization_without_amount()
     {
-        $authorizeParams = [
+        $params = [
             'currency' => 'EUR',
             'ip' => '1.1.1.1',
             'card' => [],
         ];
 
-        $this->shouldThrow(MissingArgumentException::class)->duringAuthorize($authorizeParams);
+        $this->shouldThrow(MissingArgumentException::class)->duringAuthorize($params);
     }
 
     function it_should_not_create_authorization_without_currency()
     {
-        $authorizeParams = [
+        $params = [
             'amount' => 2500,
             'ip' => '1.1.1.1',
             'card' => [],
         ];
 
-        $this->shouldThrow(MissingArgumentException::class)->duringAuthorize($authorizeParams);
+        $this->shouldThrow(MissingArgumentException::class)->duringAuthorize($params);
     }
 
-    function it_should_not_create_authorization_without_ip_address()
+    function it_should_create_authorization_from_card_id(Builder $builder, HttpMethodsClient $client)
     {
-        $authorizeParams = [
+        $cardId = '84412a34-fa29-4369-a098-0165a80e8fda';
+        $params = [
             'amount' => 2500,
             'currency' => 'EUR',
-            'card' => [],
+            'ip' => '1.1.1.1',
         ];
 
-        $this->shouldThrow(MissingArgumentException::class)->duringAuthorize($authorizeParams);
+        $builder->addPlugin(Argument::type(Plugin::class))->willReturn(null);
+        $builder->build()->willReturn($client);
+
+        $responseBodyAsArray = [
+            'id' => '84412a34-fa29-4369-a098-0165a80e8fda',
+        ];
+
+        $client
+            ->post(Argument::type('string'), Argument::type('array'), $params)
+            ->willReturn($this->createHttpResponse($responseBodyAsArray));
+
+        $this->authorizeFromCardId($cardId, $params)->shouldReturn($responseBodyAsArray);
+    }
+
+    function it_should_not_create_authorization_from_card_id_without_amount()
+    {
+        $cardId = '84412a34-fa29-4369-a098-0165a80e8fda';
+        $params = [
+            'currency' => 'EUR',
+            'ip' => '1.1.1.1',
+        ];
+
+        $this->shouldThrow(MissingArgumentException::class)->duringAuthorizeFromCardId($cardId, $params);
+    }
+
+    function it_should_not_create_authorization_from_card_id_without_currency()
+    {
+        $cardId = '84412a34-fa29-4369-a098-0165a80e8fda';
+        $params = [
+            'amount' => 2500,
+            'ip' => '1.1.1.1',
+        ];
+
+        $this->shouldThrow(MissingArgumentException::class)->duringAuthorizeFromCardId($cardId, $params);
+    }
+
+    function it_should_return_authorization(Builder $builder, HttpMethodsClient $client)
+    {
+        $authorizationId = '84412a34-fa29-4369-a098-0165a80e8fda';
+
+        $builder->addPlugin(Argument::type(Plugin::class))->willReturn(null);
+        $builder->build()->willReturn($client);
+
+        $responseBodyAsArray = ['id' => $authorizationId];
+
+        $client
+            ->get(Argument::type('string'), Argument::type('array'))
+            ->willReturn($this->createHttpResponse($responseBodyAsArray));
+
+        $this->getAuthorization($authorizationId)->shouldReturn($responseBodyAsArray);
     }
 
     function it_should_not_create_authorization_without_card()
     {
-        $authorizeParams = [
+        $params = [
             'amount' => 2500,
             'currency' => 'EUR',
             'ip' => '1.1.1.1',
         ];
 
-        $this->shouldThrow(MissingArgumentException::class)->duringAuthorize($authorizeParams);
+        $this->shouldThrow(MissingArgumentException::class)->duringAuthorize($params);
+    }
+
+    function it_should_capture_transaction(Builder $builder, HttpMethodsClient $client)
+    {
+        $authorizationId = '84412a34-fa29-4369-a098-0165a80e8fda';
+        $params = ['amount' => 2500];
+
+        $builder->addPlugin(Argument::type(Plugin::class))->willReturn(null);
+        $builder->build()->willReturn($client);
+
+        $responseBodyAsArray = [
+            'id' => '84412a34-fa29-4369-a098-0165a80e8fda',
+        ];
+
+        $client
+            ->post(Argument::type('string'), Argument::type('array'), $params)
+            ->willReturn($this->createHttpResponse($responseBodyAsArray));
+
+        $this->capture($authorizationId, $params)->shouldReturn($responseBodyAsArray);
+    }
+
+    function it_should_return_capture(Builder $builder, HttpMethodsClient $client)
+    {
+        $captureId = '84412a34-fa29-4369-a098-0165a80e8fda';
+
+        $builder->addPlugin(Argument::type(Plugin::class))->willReturn(null);
+        $builder->build()->willReturn($client);
+
+        $responseBodyAsArray = ['id' => $captureId];
+
+        $client
+            ->get(Argument::type('string'), Argument::type('array'))
+            ->willReturn($this->createHttpResponse($responseBodyAsArray));
+
+        $this->getCapture($captureId)->shouldReturn($responseBodyAsArray);
+    }
+
+    function it_should_make_a_refund(Builder $builder, HttpMethodsClient $client)
+    {
+        $authorizationId = '84412a34-fa29-4369-a098-0165a80e8fda';
+        $params = ['amount' => 500];
+
+        $builder->addPlugin(Argument::type(Plugin::class))->willReturn(null);
+        $builder->build()->willReturn($client);
+
+        $responseBodyAsArray = [
+            'id' => '84412a34-fa29-4369-a098-0165a80e8fda',
+        ];
+
+        $client
+            ->post(Argument::type('string'), Argument::type('array'), $params)
+            ->willReturn($this->createHttpResponse($responseBodyAsArray));
+
+        $this->refund($authorizationId, $params)->shouldReturn($responseBodyAsArray);
+    }
+
+    function it_should_return_refund(Builder $builder, HttpMethodsClient $client)
+    {
+        $refundId = '84412a34-fa29-4369-a098-0165a80e8fda';
+
+        $builder->addPlugin(Argument::type(Plugin::class))->willReturn(null);
+        $builder->build()->willReturn($client);
+
+        $responseBodyAsArray = ['id' => $refundId];
+
+        $client
+            ->get(Argument::type('string'), Argument::type('array'))
+            ->willReturn($this->createHttpResponse($responseBodyAsArray));
+
+        $this->getRefund($refundId)->shouldReturn($responseBodyAsArray);
+    }
+
+    function it_should_release_reserved_money(Builder $builder, HttpMethodsClient $client)
+    {
+        $authorizationId = '84412a34-fa29-4369-a098-0165a80e8fda';
+
+        $builder->addPlugin(Argument::type(Plugin::class))->willReturn(null);
+        $builder->build()->willReturn($client);
+
+        $responseBodyAsArray = [
+            'id' => '84412a34-fa29-4369-a098-0165a80e8fda',
+        ];
+
+        $client
+            ->post(Argument::type('string'), Argument::type('array'), Argument::type('array'))
+            ->willReturn($this->createHttpResponse($responseBodyAsArray));
+
+        $this->void($authorizationId)->shouldReturn($responseBodyAsArray);
+    }
+
+    function it_should_return_void(Builder $builder, HttpMethodsClient $client)
+    {
+        $voidId = '84412a34-fa29-4369-a098-0165a80e8fda';
+
+        $builder->addPlugin(Argument::type(Plugin::class))->willReturn(null);
+        $builder->build()->willReturn($client);
+
+        $responseBodyAsArray = ['id' => $voidId];
+
+        $client
+            ->get(Argument::type('string'), Argument::type('array'))
+            ->willReturn($this->createHttpResponse($responseBodyAsArray));
+
+        $this->getVoid($voidId)->shouldReturn($responseBodyAsArray);
+    }
+
+    function it_should_payout_money(Builder $builder, HttpMethodsClient $client)
+    {
+        $cardId = '84412a34-fa29-4369-a098-0165a80e8fda';
+        $params = [
+            'amount' => 2500,
+            'currency' => 'EUR',
+        ];
+
+        $builder->addPlugin(Argument::type(Plugin::class))->willReturn(null);
+        $builder->build()->willReturn($client);
+
+        $responseBodyAsArray = [
+            'id' => '84412a34-fa29-4369-a098-0165a80e8fda',
+        ];
+
+        $client
+            ->post(Argument::type('string'), Argument::type('array'), $params)
+            ->willReturn($this->createHttpResponse($responseBodyAsArray));
+
+        $this->credit($cardId, $params)->shouldReturn($responseBodyAsArray);
+    }
+
+    function it_should_not_payout_money_without_amount()
+    {
+        $cardId = '84412a34-fa29-4369-a098-0165a80e8fda';
+        $params = ['currency' => 'EUR'];
+
+        $this->shouldThrow(MissingArgumentException::class)->duringCredit($cardId, $params);
+    }
+
+    function it_should_not_payout_money_without_currency()
+    {
+        $cardId = '84412a34-fa29-4369-a098-0165a80e8fda';
+        $params = ['amount' => 2500];
+
+        $this->shouldThrow(MissingArgumentException::class)->duringCredit($cardId, $params);
+    }
+
+    function it_should_return_credit(Builder $builder, HttpMethodsClient $client)
+    {
+        $creditId = '84412a34-fa29-4369-a098-0165a80e8fda';
+
+        $builder->addPlugin(Argument::type(Plugin::class))->willReturn(null);
+        $builder->build()->willReturn($client);
+
+        $responseBodyAsArray = ['id' => $creditId];
+
+        $client
+            ->get(Argument::type('string'), Argument::type('array'))
+            ->willReturn($this->createHttpResponse($responseBodyAsArray));
+
+        $this->getCredit($creditId)->shouldReturn($responseBodyAsArray);
+    }
+
+    function it_should_return_account(Builder $builder, HttpMethodsClient $client)
+    {
+        $builder->addPlugin(Argument::type(Plugin::class))->willReturn(null);
+        $builder->build()->willReturn($client);
+
+        $responseBodyAsArray = [
+            'merchant_id' => '84412a34-fa29-4369-a098-0165a80e8fda',
+        ];
+
+        $client
+            ->get(Argument::type('string'), Argument::type('array'))
+            ->willReturn($this->createHttpResponse($responseBodyAsArray));
+
+        $this->getAccount()->shouldReturn($responseBodyAsArray);
     }
 
     private function createHttpResponse(array $body) : Response
