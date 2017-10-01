@@ -13,18 +13,21 @@ use Http\Message\Authentication\BasicAuth;
 
 class Client
 {
-    const LIVE_ENDPOINT = 'https://gateway.clearhaus.com';
-    const TEST_ENDPOINT = 'https://gateway.test.clearhaus.com';
+    const ENDPOINT_LIVE = 'https://gateway.clearhaus.com';
+    const ENDPOINT_TEST = 'https://gateway.test.clearhaus.com';
+
+    const MODE_LIVE = 'live';
+    const MODE_TEST = 'test';
 
     const CONTENT_TYPE = 'application/vnd.clearhaus-gateway.hal+json';
 
     private $builder;
 
-    public function __construct(Builder $builder = null, bool $test = false)
+    public function __construct(Builder $builder = null, string $mode = self::MODE_TEST)
     {
         $this->builder = $builder ?: new Builder();
 
-        $uri = $test ? self::TEST_ENDPOINT : self::LIVE_ENDPOINT;
+        $uri = $mode === self::MODE_TEST ? self::ENDPOINT_TEST : self::ENDPOINT_LIVE;
 
         $builder->addPlugin(new ClearhausExceptionThrower());
         $builder->addPlugin(new Plugin\AddHostPlugin(
