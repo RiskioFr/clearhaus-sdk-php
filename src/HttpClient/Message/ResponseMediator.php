@@ -2,6 +2,7 @@
 
 namespace Clearhaus\HttpClient\Message;
 
+use Clearhaus\Client;
 use Psr\Http\Message\ResponseInterface;
 
 class ResponseMediator
@@ -11,7 +12,7 @@ class ResponseMediator
         $body = $response->getBody()->__toString();
         $contentType = $response->getHeaderLine('Content-Type');
 
-        if (strpos($contentType, 'application/vnd.clearhaus-gateway.hal+json') !== 0) {
+        if (strpos($contentType, Client::CONTENT_TYPE) !== 0) {
             return [];
         }
 

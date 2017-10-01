@@ -16,6 +16,8 @@ class Client
     const LIVE_ENDPOINT = 'https://gateway.clearhaus.com';
     const TEST_ENDPOINT = 'https://gateway.test.clearhaus.com';
 
+    const CONTENT_TYPE = 'application/vnd.clearhaus-gateway.hal+json';
+
     private $builder;
 
     public function __construct(Builder $builder = null, bool $test = false)

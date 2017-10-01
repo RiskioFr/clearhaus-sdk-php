@@ -2,6 +2,7 @@
 
 namespace spec\Clearhaus\HttpClient\Plugin;
 
+use Clearhaus\Client;
 use Clearhaus\Exception\ApiLimitExceedException;
 use Clearhaus\Exception\RuntimeException;
 use Clearhaus\Exception\UnauthorizedException;
@@ -124,7 +125,7 @@ class ClearhausExceptionThrowerSpec extends ObjectBehavior
         $stream->rewind();
 
         $httpResponse = (new Response())
-            ->withHeader('Content-Type', 'application/vnd.clearhaus-gateway.hal+json')
+            ->withHeader('Content-Type', Client::CONTENT_TYPE)
             ->withStatus($statusCode)
             ->withBody($stream);
 

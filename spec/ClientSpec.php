@@ -119,7 +119,7 @@ class ClientSpec extends ObjectBehavior
         $stream->rewind();
 
         $httpResponse = (new Response())
-            ->withHeader('Content-Type', 'application/vnd.clearhaus-gateway.hal+json')
+            ->withHeader('Content-Type', Client::CONTENT_TYPE)
             ->withBody($stream);
 
         return $httpResponse;
