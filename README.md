@@ -47,7 +47,7 @@ $client->setApiKey($apiKey);
 To reserve money on a cardholder’s bank account you make a new authorization resource.
 
 ```php
-$authorization = $client->authorize([
+$authorization = $client->authorizations->authorize([
     'amount' => 2050,
     'currency' => 'EUR',
     'ip' => '1.1.1.1',
@@ -63,7 +63,7 @@ $authorization = $client->authorize([
 You can also use a card previously tokenized.
 
 ```php
-$authorization = $client->authorizeFromCardId($cardId, [
+$authorization = $client->authorizations->authorizeFromCardId($cardId, [
     'amount' => 2050,
     'currency' => 'EUR',
     'ip' => '1.1.1.1',
@@ -75,13 +75,13 @@ $authorization = $client->authorizeFromCardId($cardId, [
 To transfer money from a cardholder’s bank account to your merchant bank account you make a new capture resource. You can make multiple captures for an authorization transaction.
 
 ```php
-$client->capture($authorization['id']);
+$client->captures->capture($authorization['id']);
 ```
 
 You can withdraw a partial amount by providing an amount parameter:
 
 ```php
-$client->capture($authorization['id'], ['amount' => 1000]);
+$client->captures->capture($authorization['id'], ['amount' => 1000]);
 ```
 
 ### Refunds
@@ -89,13 +89,13 @@ $client->capture($authorization['id'], ['amount' => 1000]);
 To refund money to a cardholder’s bank account you make a new refund resource. You can make multiple refunds for an authorization transaction.
 
 ```php
-$client->refund($authorization['id'], ['amount' => 500]);
+$client->refunds->refund($authorization['id'], ['amount' => 500]);
 ```
 
 You can refund a partial amount by providing an amount parameter:
 
 ```php
-$client->refund($authorization['id'], ['amount' => 500]);
+$client->refunds->refund($authorization['id'], ['amount' => 500]);
 ```
 
 ### Voids
@@ -103,7 +103,7 @@ $client->refund($authorization['id'], ['amount' => 500]);
 To release reserved money on a cardholder’s bank account you make a new void resource. A reservation normally last for 7 days depending on issuing bank and is then automatically released.
 
 ```php
-$client->void($authorization['id']);
+$client->voids->void($authorization['id']);
 ```
 
 ### Credits
@@ -111,7 +111,7 @@ $client->void($authorization['id']);
 To payout (e.g. winnings and not refunds) money to a cardholder’s bank account you make a new credit resource. You must have a card resource to make a credit transaction.
 
 ```php
-$client->credit($card['id'], [
+$client->credits->credit($card['id'], [
     'amount' => 2050,
     'currency' => 'EUR',
 ]);
@@ -122,7 +122,7 @@ $client->credit($card['id'], [
 A card resource (token) corresponds to a payment card and can be used to make a credit or authorization transaction without providing sensitive card data (see “Tokenization”). A card resource must be used to make subsequent recurring authorization transactions.
 
 ```php
-$card = $client->createCard([
+$card = $client->cards->createCard([
     'card' => [
         'number' => '4111111111111111',
         'expire_month' => '06',
@@ -137,7 +137,7 @@ $card = $client->createCard([
 The account resource holds basic merchant account information.
 
 ```php
-$account = $client->getAccount();
+$account = $client->accounts->getAccount();
 ```
 
 ## Testing

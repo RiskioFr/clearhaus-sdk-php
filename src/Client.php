@@ -2,15 +2,26 @@
 
 namespace Clearhaus;
 
-use Clearhaus\Exception\MissingArgumentException;
+use Clearhaus\Api;
+use Clearhaus\Exception\BadMethodCallException;
+use Clearhaus\Exception\InvalidArgumentException;
 use Clearhaus\HttpClient\Builder;
-use Clearhaus\HttpClient\Message\ResponseMediator;
 use Clearhaus\HttpClient\Plugin\Authentication;
 use Clearhaus\HttpClient\Plugin\ClearhausExceptionThrower;
+use Http\Client\Common\HttpMethodsClient;
 use Http\Client\Common\Plugin;
 use Http\Discovery\UriFactoryDiscovery;
 use Http\Message\Authentication\BasicAuth;
 
+/**
+ * @method Api\Accounts accounts()
+ * @method Api\Authorizations authorizations()
+ * @method Api\Captures captures()
+ * @method Api\Cards cards()
+ * @method Api\Credits credits()
+ * @method Api\Refunds refunds()
+ * @method Api\Voids voids()
+ */
 class Client
 {
     const ENDPOINT_LIVE = 'https://gateway.clearhaus.com';
@@ -35,6 +46,11 @@ class Client
         ));
     }
 
+    public function getHttpClient() : HttpMethodsClient
+    {
+        return $this->builder->build();
+    }
+
     public function setApiKey(string $apiKey)
     {
         $this->builder->removePlugin(Authentication::class);
@@ -43,108 +59,36 @@ class Client
         $this->builder->addPlugin($authenticationPlugin);
     }
 
-    public function authorize(array $params) : array
+    public function __call($name, $args) : Api\AbstractApi
     {
-        if (!isset($params['amount'], $params['currency'], $params['card'])) {
-            throw new MissingArgumentException(['amount', 'currency', 'card']);
+        try {
+            return $this->api($name);
+        } catch (InvalidArgumentException $e) {
+            throw new BadMethodCallException(sprintf('Undefined method called: "%s"', $name));
         }
-
-        return $this->post('/authorizations', $params);
     }
 
-    public function authorizeFromCardId(string $cardId, array $params) : array
+    public function api($name) : Api\AbstractApi
     {
-        if (!isset($params['amount'], $params['currency'])) {
-            throw new MissingArgumentException(['amount', 'currency']);
+        switch ($name) {
+            case 'accounts':
+                return new Api\Accounts($this);
+            case 'authorizations':
+                return new Api\Authorizations($this);
+            case 'captures':
+                return new Api\Captures($this);
+            case 'cards':
+                return new Api\Cards($this);
+            case 'credits':
+                return new Api\Credits($this);
+            case 'refunds':
+                return new Api\Refunds($this);
+            case 'voids':
+                return new Api\Voids($this);
+            default:
+                throw new InvalidArgumentException(
+                    sprintf('Undefined api instance called: "%s"', $name)
+                );
         }
-
-        return $this->post(sprintf('/cards/%s/authorizations', $cardId), $params);
-    }
-
-    public function getAuthorization($id) : array
-    {
-        return $this->get(sprintf('/authorizations/%s', $id));
-    }
-
-    public function capture(string $authorizationId, array $params = []) : array
-    {
-        return $this->post(sprintf('/authorizations/%s/captures', $authorizationId), $params);
-    }
-
-    public function getCapture($id) : array
-    {
-        return $this->get(sprintf('/captures/%s', $id));
-    }
-
-    public function refund(string $authorizationId, array $params = []) : array
-    {
-        return $this->post(sprintf('/authorizations/%s/refunds', $authorizationId), $params);
-    }
-
-    public function getRefund($id) : array
-    {
-        return $this->get(sprintf('/refunds/%s', $id));
-    }
-
-    public function void(string $authorizationId, array $params = []) : array
-    {
-        return $this->post(sprintf('/authorizations/%s/voids', $authorizationId), $params);
-    }
-
-    public function getVoid($id) : array
-    {
-        return $this->get(sprintf('/voids/%s', $id));
-    }
-
-    public function credit(string $cardId, array $params = []) : array
-    {
-        if (!isset($params['amount'], $params['currency'])) {
-            throw new MissingArgumentException(['amount', 'currency']);
-        }
-
-        return $this->post(sprintf('/cards/%s/credits', $cardId), $params);
-    }
-
-    public function getCredit($id) : array
-    {
-        return $this->get(sprintf('/credits/%s', $id));
-    }
-
-    public function createCard(array $params = []) : array
-    {
-        if (!isset($params['number'], $params['expire_month'], $params['expire_year'], $params['csc'])) {
-            throw new MissingArgumentException(['number', 'expire_month', 'expire_year', 'csc']);
-        }
-
-        return $this->post('/cards', $params);
-    }
-
-    public function getCard($id) : array
-    {
-        return $this->get(sprintf('/cards/%s', $id));
-    }
-
-    public function getAccount() : array
-    {
-        return $this->get('/accounts');
-    }
-
-    private function post(string $path, array $params, array $headers = []) : array
-    {
-        $httpClient = $this->builder->build();
-
-        $headers['Content-Type'] = 'application/x-www-form-urlencoded';
-        $response = $httpClient->post($path, $headers, $params);
-
-        return ResponseMediator::getContent($response);
-    }
-
-    private function get(string $path, array $headers = []) : array
-    {
-        $httpClient = $this->builder->build();
-
-        $response = $httpClient->get($path, $headers);
-
-        return ResponseMediator::getContent($response);
     }
 }
