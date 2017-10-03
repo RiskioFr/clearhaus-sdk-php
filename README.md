@@ -38,8 +38,17 @@ For authentication, you must provide an API key that you will find in your accou
 ```php
 use Clearhaus\Client;
 
-$client = new Client();
-$client->setApiKey($apiKey);
+$client = new Client($apiKey);
+```
+
+### Signed requests
+
+The signature is an RSA signature of the HTTP body; it is represented in Hex. The signee must be identified by the signing API-key.
+
+```php
+use Clearhaus\Client;
+
+$client->enabledSignature();
 ```
 
 ### Authorizations

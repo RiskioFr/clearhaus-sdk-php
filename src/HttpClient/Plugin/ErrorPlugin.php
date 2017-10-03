@@ -11,7 +11,7 @@ use Http\Client\Common\Plugin;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class ClearhausExceptionThrower implements Plugin
+class ErrorPlugin implements Plugin
 {
     /**
      * {@inheritdoc}
