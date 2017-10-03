@@ -4,15 +4,19 @@ namespace spec\Clearhaus;
 
 use Clearhaus\Client;
 use Clearhaus\HttpClient\Builder;
-use Clearhaus\HttpClient\Plugin\Authentication;
+use Clearhaus\HttpClient\Plugin\SignaturePlugin;
+use Http\Client\Common\HttpMethodsClient;
+use Http\Client\Common\Plugin;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class ClientSpec extends ObjectBehavior
 {
+    private $apiKey = '123456789';
+
     function let(Builder $builder)
     {
-        $this->beConstructedWith($builder);
+        $this->beConstructedWith($this->apiKey, $builder);
     }
 
     function it_is_initializable()
@@ -20,12 +24,21 @@ class ClientSpec extends ObjectBehavior
         $this->shouldHaveType(Client::class);
     }
 
-    function it_should_add_authentication_plugin(Builder $builder)
+    function it_should_enable_signature(Builder $builder)
     {
-        $apiKey = '123456789';
+        $builder->addPlugin(Argument::type(Plugin::class))->willReturn(null);
 
-        $builder->addPlugin(Argument::type(Authentication::class));
+        $builder->addPlugin(Argument::type(SignaturePlugin::class))->shouldBeCalled();
 
-        $this->setApiKey($apiKey)->shouldReturn(null);
+        $this->enableSignature();
+    }
+
+    function it_should_return_http_client(Builder $builder, HttpMethodsClient $httpMethodsClient)
+    {
+        $builder->addPlugin(Argument::type(Plugin::class))->willReturn(null);
+
+        $builder->build()->willReturn($httpMethodsClient);
+
+        $this->getHttpClient()->shouldReturn($httpMethodsClient);
     }
 }

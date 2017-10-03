@@ -7,7 +7,7 @@ use Clearhaus\Exception\ApiLimitExceedException;
 use Clearhaus\Exception\RuntimeException;
 use Clearhaus\Exception\UnauthorizedException;
 use Clearhaus\Exception\ValidationFailedException;
-use Clearhaus\HttpClient\Plugin\ClearhausExceptionThrower;
+use Clearhaus\HttpClient\Plugin\ErrorPlugin;
 use Exception;
 use Http\Promise\FulfilledPromise;
 use Http\Promise\Promise;
@@ -17,11 +17,11 @@ use Psr\Http\Message\RequestInterface;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\Stream;
 
-class ClearhausExceptionThrowerSpec extends ObjectBehavior
+class ErrorPluginSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType(ClearhausExceptionThrower::class);
+        $this->shouldHaveType(ErrorPlugin::class);
     }
 
     function it_shoud_return_http_response(RequestInterface $request)

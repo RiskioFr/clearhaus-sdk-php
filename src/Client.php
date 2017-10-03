@@ -6,12 +6,14 @@ use Clearhaus\Api;
 use Clearhaus\Exception\BadMethodCallException;
 use Clearhaus\Exception\InvalidArgumentException;
 use Clearhaus\HttpClient\Builder;
-use Clearhaus\HttpClient\Plugin\Authentication;
-use Clearhaus\HttpClient\Plugin\ClearhausExceptionThrower;
+use Clearhaus\HttpClient\Plugin\ErrorPlugin;
+use Clearhaus\HttpClient\Plugin\SignaturePlugin;
 use Http\Client\Common\HttpMethodsClient;
 use Http\Client\Common\Plugin;
+use Http\Client\Common\Plugin\AuthenticationPlugin;
 use Http\Discovery\UriFactoryDiscovery;
 use Http\Message\Authentication\BasicAuth;
+use phpseclib\Crypt\RSA;
 
 /**
  * @method Api\Accounts accounts()
@@ -32,31 +34,35 @@ class Client
 
     const CONTENT_TYPE = 'application/vnd.clearhaus-gateway.hal+json';
 
+    private $apiKey;
+
     private $builder;
 
-    public function __construct(Builder $builder = null, string $mode = self::MODE_TEST)
+    public function __construct(string $apiKey, Builder $builder = null, string $mode = self::MODE_TEST)
     {
+        $this->apiKey = $apiKey;
         $this->builder = $builder ?: new Builder();
 
         $uri = $mode === self::MODE_TEST ? self::ENDPOINT_TEST : self::ENDPOINT_LIVE;
 
-        $builder->addPlugin(new ClearhausExceptionThrower());
-        $builder->addPlugin(new Plugin\AddHostPlugin(
+        $this->builder->addPlugin(new ErrorPlugin());
+        $this->builder->addPlugin(new Plugin\AddHostPlugin(
             UriFactoryDiscovery::find()->createUri($uri)
         ));
+        $this->builder->addPlugin(new AuthenticationPlugin(
+            new BasicAuth($this->apiKey, '')
+        ));
+    }
+
+    public function enableSignature()
+    {
+        $encrypter = new RSA();
+        $this->builder->addPlugin(new SignaturePlugin($encrypter, $this->apiKey));
     }
 
     public function getHttpClient() : HttpMethodsClient
     {
         return $this->builder->build();
-    }
-
-    public function setApiKey(string $apiKey)
-    {
-        $this->builder->removePlugin(Authentication::class);
-
-        $authenticationPlugin = new Authentication(new BasicAuth($apiKey, ''));
-        $this->builder->addPlugin($authenticationPlugin);
     }
 
     public function __call($name, $args) : Api\AbstractApi
