@@ -128,7 +128,7 @@ $client->credits->credit($card['id'], [
 
 ### Cards
 
-A card resource (token) corresponds to a payment card and can be used to make a credit or authorization transaction without providing sensitive card data (see “Tokenization”). A card resource must be used to make subsequent recurring authorization transactions.
+A card resource (token) corresponds to a payment card and can be used to make a credit or authorization transaction without providing sensitive card data. A card resource must be used to make subsequent recurring authorization transactions.
 
 ```php
 $card = $client->cards->createCard([
@@ -147,6 +147,29 @@ The account resource holds basic merchant account information.
 
 ```php
 $account = $client->accounts->getAccount();
+```
+
+### 3-D Secure
+
+3-D Secure is a protocol designed to improve security for online transactions. Before you continue please read more about this protocol at [3Dsecure.io](http://docs.3dsecure.io/).
+
+To perform a 3-D Secure transaction you make an ordinary authorization including a pares value:
+
+```php
+$authorization = $client->authorizations->authorize([
+    'amount' => 2050,
+    'currency' => 'EUR',
+    'ip' => '1.1.1.1',
+    'card' => [
+        'number' => '4111111111111111',
+        'expire_month' => '06',
+        'expire_year' => '2018',
+        'csc' => '123',
+    ],
+    'threed_secure' => [
+        'pares' => '<some-pares-value>',
+    ],
+]);
 ```
 
 ## Testing
