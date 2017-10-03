@@ -98,7 +98,7 @@ $client->captures->capture($authorization['id'], ['amount' => 1000]);
 To refund money to a cardholder’s bank account you make a new refund resource. You can make multiple refunds for an authorization transaction.
 
 ```php
-$client->refunds->refund($authorization['id'], ['amount' => 500]);
+$client->refunds->refund($authorization['id']);
 ```
 
 You can refund a partial amount by providing an amount parameter:
