@@ -45,13 +45,6 @@ class Builder
      */
     private $plugins = [];
 
-    /**
-     * Http headers.
-     *
-     * @var array
-     */
-    private $headers = [];
-
     public function __construct(
         HttpClient $httpClient = null,
         RequestFactory $requestFactory = null
@@ -88,36 +81,5 @@ class Builder
                 $this->httpClientModified = true;
             }
         }
-    }
-
-    public function clearHeaders()
-    {
-        $this->headers = [];
-
-        $this->removePlugin(Plugin\HeaderAppendPlugin::class);
-        $this->addPlugin(new Plugin\HeaderAppendPlugin($this->headers));
-    }
-
-    public function addHeaders(array $headers)
-    {
-        $this->headers = array_merge($this->headers, $headers);
-
-        $this->removePlugin(Plugin\HeaderAppendPlugin::class);
-        $this->addPlugin(new Plugin\HeaderAppendPlugin($this->headers));
-    }
-
-    public function addHeaderValue(string $header, string $headerValue)
-    {
-        if (!isset($this->headers[$header])) {
-            $this->headers[$header] = $headerValue;
-        } else {
-            $this->headers[$header] = array_merge(
-                (array) $this->headers[$header],
-                [$headerValue]
-            );
-        }
-
-        $this->removePlugin(Plugin\HeaderAppendPlugin::class);
-        $this->addPlugin(new Plugin\HeaderAppendPlugin($this->headers));
     }
 }
