@@ -13,6 +13,10 @@ class Authorizations extends AbstractApi
             throw new MissingArgumentException(['amount', 'currency', 'card']);
         }
 
+        if (isset($params['threed_secure']['pares'])) {
+            $params['threed_secure']['pares'] = urlencode($params['threed_secure']['pares']);
+        }
+
         return $this->post('/authorizations', $params);
     }
 
