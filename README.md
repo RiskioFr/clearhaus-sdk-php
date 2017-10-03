@@ -48,7 +48,7 @@ The signature is an RSA signature of the HTTP body; it is represented in Hex. Th
 ```php
 use Clearhaus\Client;
 
-$client->enabledSignature();
+$client->enableSignature();
 ```
 
 ### Authorizations
