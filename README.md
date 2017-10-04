@@ -172,6 +172,32 @@ $authorization = $client->authorizations->authorize([
 ]);
 ```
 
+## PSR-11 factory
+
+You can use the predefined factory `Clearhaus\Container\ClientFactory` to instantiate a Clearhaus client:
+
+```php
+use Clearhaus\Container\ClientFactory;
+
+$factory = new ClientFactory();
+$client = $factory($psrContainer);
+```
+
+The client configuration must look like below:
+
+```php
+use Clearhaus\Client;
+
+return [
+    'clearhaus_sdk' => [
+        'api_key' => null, // Allow to provide API key that you will find in your account
+        'mode' => Client::MODE_TEST, // Allow to define the usage of either test or live accounts
+        'use_signature' => true, // Allow to configure the usage of request signature
+        'plugins' => [], // HTTPlug plugins that allow to add some processing logic
+    ],
+];
+```
+
 ## Testing
 
 ``` bash
