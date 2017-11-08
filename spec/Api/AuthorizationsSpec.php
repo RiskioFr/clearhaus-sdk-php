@@ -36,7 +36,7 @@ class AuthorizationsSpec extends AbstractSpec
         $client->getHttpClient()->willReturn($httpClient);
 
         $httpClient
-            ->post(Argument::type('string'), Argument::type('array'), $params)
+            ->post(Argument::type('string'), Argument::type('array'), http_build_query($params))
             ->willReturn($this->createHttpResponse($responseBodyAsArray));
 
         $this->authorize($params)->shouldReturn($responseBodyAsArray);
@@ -80,7 +80,7 @@ class AuthorizationsSpec extends AbstractSpec
         $client->getHttpClient()->willReturn($httpClient);
 
         $httpClient
-            ->post(Argument::type('string'), Argument::type('array'), $params)
+            ->post(Argument::type('string'), Argument::type('array'), http_build_query($params))
             ->willReturn($this->createHttpResponse($responseBodyAsArray));
 
         $this->authorizeFromCardId($cardId, $params)->shouldReturn($responseBodyAsArray);

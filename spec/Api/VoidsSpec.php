@@ -30,7 +30,7 @@ class VoidsSpec extends AbstractSpec
         $client->getHttpClient()->willReturn($httpClient);
 
         $httpClient
-            ->post(Argument::type('string'), Argument::type('array'), Argument::type('array'))
+            ->post(Argument::type('string'), Argument::type('array'), Argument::type('string'))
             ->willReturn($this->createHttpResponse($responseBodyAsArray));
 
         $this->void($authorizationId)->shouldReturn($responseBodyAsArray);

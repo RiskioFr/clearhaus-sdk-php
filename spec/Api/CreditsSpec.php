@@ -35,7 +35,7 @@ class CreditsSpec extends AbstractSpec
         $client->getHttpClient()->willReturn($httpClient);
 
         $httpClient
-            ->post(Argument::type('string'), Argument::type('array'), $params)
+            ->post(Argument::type('string'), Argument::type('array'), http_build_query($params))
             ->willReturn($this->createHttpResponse($responseBodyAsArray));
 
         $this->credit($cardId, $params)->shouldReturn($responseBodyAsArray);
