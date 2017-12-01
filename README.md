@@ -5,9 +5,10 @@ SDK for Clearhaus API written in PHP and decoupled from any HTTP messaging clien
 
 You can sign up for a Clearhaus account at https://www.clearhaus.com/.
 
-[![Build Status](https://img.shields.io/travis/RiskioFr/clearhaus-sdk-php.svg?style=flat)](http://travis-ci.org/RiskioFr/clearhaus-sdk-php)
-[![Latest Stable Version](http://img.shields.io/packagist/v/riskio/clearhaus-sdk-php.svg?style=flat)](https://packagist.org/packages/riskio/clearhaus-sdk-php)
-[![Total Downloads](http://img.shields.io/packagist/dt/riskio/clearhaus-sdk-php.svg?style=flat)](https://packagist.org/packages/riskio/clearhaus-sdk-php)
+[![Build Status](https://img.shields.io/travis/RiskioFr/clearhaus-sdk-php.svg?style=flat-square)](http://travis-ci.org/RiskioFr/clearhaus-sdk-php)
+[![Latest Stable Version](http://img.shields.io/packagist/v/clearhaus/sdk.svg?style=flat-square)](https://packagist.org/packages/clearhaus/sdk)
+[![Total Downloads](http://img.shields.io/packagist/dt/clearhaus/sdk.svg?style=flat-square)](https://packagist.org/packages/clearhaus/sdk)
+[![GitHub license](https://img.shields.io/github/license/RiskioFr/clearhaus-sdk-php.svg?style=flat-square)](https://github.com/RiskioFr/clearhaus-sdk-php/blob/master/LICENSE)
 
 ## Requirements
 
