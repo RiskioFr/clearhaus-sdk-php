@@ -1,5 +1,2 @@
 formatter.name: pretty
-suites:
-  clearhaus:
-    namespace: Clearhaus
-    psr4_prefix: Clearhaus
+composer_suite_detection: true
