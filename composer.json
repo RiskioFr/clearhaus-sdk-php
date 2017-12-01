@@ -24,11 +24,6 @@
       "Clearhaus\\": "src/"
     }
   },
-  "autoload-dev": {
-    "psr-4": {
-      "Clearhaus\\Tests\\": "tests/"
-    }
-  },
   "require": {
     "php": "^7.0",
     "php-http/client-common": "^1.3",
