@@ -14,8 +14,8 @@ use Http\Promise\Promise;
 use Http\Promise\RejectedPromise;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\RequestInterface;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\Stream;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\Stream;
 
 class ErrorPluginSpec extends ObjectBehavior
 {
