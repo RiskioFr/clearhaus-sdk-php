@@ -62,21 +62,12 @@ $authorization = $client->authorizations->authorize([
     'currency' => 'EUR',
     'ip' => '1.1.1.1',
     'card' => [
-        'number' => '4111111111111111',
+        'pan' => '4111111111111111',
         'expire_month' => '06',
         'expire_year' => '2018',
         'csc' => '123',
+        'pares' => '<some-pares-value>',
     ],
-]);
-```
-
-You can also use a card previously tokenized.
-
-```php
-$authorization = $client->authorizations->authorizeFromCardId($cardId, [
-    'amount' => 2050,
-    'currency' => 'EUR',
-    'ip' => '1.1.1.1',
 ]);
 ```
 
@@ -127,21 +118,6 @@ $client->credits->credit($card['id'], [
 ]);
 ```
 
-### Cards
-
-A card resource (token) corresponds to a payment card and can be used to make a credit or authorization transaction without providing sensitive card data. A card resource must be used to make subsequent recurring authorization transactions.
-
-```php
-$card = $client->cards->createCard([
-    'card' => [
-        'number' => '4111111111111111',
-        'expire_month' => '06',
-        'expire_year' => '2018',
-        'csc' => '123',
-    ],
-]);
-```
-
 ### Accounts
 
 The account resource holds basic merchant account information.
@@ -162,12 +138,10 @@ $authorization = $client->authorizations->authorize([
     'currency' => 'EUR',
     'ip' => '1.1.1.1',
     'card' => [
-        'number' => '4111111111111111',
+        'pan' => '4111111111111111',
         'expire_month' => '06',
         'expire_year' => '2018',
         'csc' => '123',
-    ],
-    'threed_secure' => [
         'pares' => '<some-pares-value>',
     ],
 ]);

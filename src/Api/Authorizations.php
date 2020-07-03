@@ -9,24 +9,18 @@ class Authorizations extends AbstractApi
 {
     public function authorize(array $params) : array
     {
-        if (!isset($params['amount'], $params['currency'], $params['card'])) {
-            throw new MissingArgumentException(['amount', 'currency', 'card']);
-        }
-
-        if (isset($params['threed_secure']['pares'])) {
-            $params['threed_secure']['pares'] = \urlencode($params['threed_secure']['pares']);
-        }
-
-        return $this->post('/authorizations', $params);
-    }
-
-    public function authorizeFromCardId(string $cardId, array $params) : array
-    {
         if (!isset($params['amount'], $params['currency'])) {
             throw new MissingArgumentException(['amount', 'currency']);
         }
 
-        return $this->post(\sprintf('/cards/%s/authorizations', $cardId), $params);
+        if (isset($params['card']['pares'])) {
+            $params['card']['pares'] = urlencode($params['card']['pares']);
+        }
+        if (isset($params['mobilepayonline']['pares'])) {
+            $params['mobilepayonline']['pares'] = urlencode($params['mobilepayonline']['pares']);
+        }
+
+        return $this->post('/authorizations', $params);
     }
 
     public function getAuthorization(string $id) : array
