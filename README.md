@@ -12,10 +12,14 @@ You can sign up for a Clearhaus account at https://www.clearhaus.com/.
 
 ## Requirements
 
-* PHP 7.0+
+* PHP 7.1+
 * [php-http/client-common ^1.3](https://github.com/php-http/client-common)
-* [php-http/discovery ^1.0](https://github.com/php-http/discovery)
+* [php-http/discovery ^1.6](https://github.com/php-http/discovery)
 * [php-http/httplug ^1.0](https://github.com/php-http/httplug)
+* [php-http/message-factory ^1.0.2](https://github.com/php-http/message-factory)
+* [phpseclib/phpseclib ^2.0](https://github.com/phpseclib/phpseclib)
+* [psr/container ^1.0](https://github.com/php-fig/container)
+* [psr/http-message ^1.0](https://github.com/php-fig/http-message)
 
 ## Installation
 

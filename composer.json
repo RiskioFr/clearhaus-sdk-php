@@ -37,7 +37,8 @@
   "require-dev": {
     "phpspec/phpspec": "^5.0 || ^6.0",
     "phpspec/prophecy": "^1.6.2",
-    "laminas/laminas-diactoros": "^1.6 || ^2.0"
+    "guzzlehttp/psr7": "^1.6",
+    "http-interop/http-factory-guzzle": "^1.0"
   },
   "suggest": {
     "ext-openssl": "Allow to sign requests using RSA signature of the HTTP body."
