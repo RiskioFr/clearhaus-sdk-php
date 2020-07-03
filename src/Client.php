@@ -12,7 +12,7 @@ use Clearhaus\HttpClient\Plugin\SignaturePlugin;
 use Http\Client\Common\HttpMethodsClient;
 use Http\Client\Common\Plugin;
 use Http\Client\Common\Plugin\AuthenticationPlugin;
-use Http\Discovery\UriFactoryDiscovery;
+use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Message\Authentication\BasicAuth;
 use phpseclib\Crypt\RSA;
 
@@ -48,7 +48,7 @@ class Client
 
         $this->builder->addPlugin(new ErrorPlugin());
         $this->builder->addPlugin(new Plugin\AddHostPlugin(
-            UriFactoryDiscovery::find()->createUri($uri)
+            Psr17FactoryDiscovery::findUrlFactory()->createUri($uri)
         ));
         $this->builder->addPlugin(new AuthenticationPlugin(
             new BasicAuth($this->apiKey, '')
