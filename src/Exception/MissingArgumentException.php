@@ -9,9 +9,9 @@ class MissingArgumentException extends ErrorException
     public function __construct(array $required, int $code = 0, Throwable $previous = null)
     {
         parent::__construct(
-            sprintf(
+            \sprintf(
                 'One or more of required ("%s") parameters is missing!',
-                implode('", "', $required)
+                \implode('", "', $required)
             ),
             $code,
             $previous

@@ -18,6 +18,6 @@ class Cards extends AbstractApi
 
     public function getCard(string $id) : array
     {
-        return $this->get(sprintf('/cards/%s', $id));
+        return $this->get(\sprintf('/cards/%s', $id));
     }
 }

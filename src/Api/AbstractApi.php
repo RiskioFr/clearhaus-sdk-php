@@ -18,7 +18,7 @@ abstract class AbstractApi
     public function post(string $path, array $params, array $headers = []) : array
     {
         $headers['Content-Type'] = 'application/x-www-form-urlencoded';
-        $response = $this->client->getHttpClient()->post($path, $headers, http_build_query($params));
+        $response = $this->client->getHttpClient()->post($path, $headers, \http_build_query($params));
 
         return ResponseMediator::getContent($response);
     }

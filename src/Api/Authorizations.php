@@ -14,7 +14,7 @@ class Authorizations extends AbstractApi
         }
 
         if (isset($params['threed_secure']['pares'])) {
-            $params['threed_secure']['pares'] = urlencode($params['threed_secure']['pares']);
+            $params['threed_secure']['pares'] = \urlencode($params['threed_secure']['pares']);
         }
 
         return $this->post('/authorizations', $params);
@@ -26,11 +26,11 @@ class Authorizations extends AbstractApi
             throw new MissingArgumentException(['amount', 'currency']);
         }
 
-        return $this->post(sprintf('/cards/%s/authorizations', $cardId), $params);
+        return $this->post(\sprintf('/cards/%s/authorizations', $cardId), $params);
     }
 
     public function getAuthorization(string $id) : array
     {
-        return $this->get(sprintf('/authorizations/%s', $id));
+        return $this->get(\sprintf('/authorizations/%s', $id));
     }
 }

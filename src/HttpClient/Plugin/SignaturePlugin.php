@@ -24,7 +24,7 @@ class SignaturePlugin implements Plugin
     public function handleRequest(RequestInterface $request, callable $next, callable $first)
     {
         $encryptedBody = $this->encrypter->encrypt($request->getBody()->getContents());
-        $signature = sprintf('%s %s %s', $this->apiKey, 'RS256-hex', $encryptedBody);
+        $signature = \sprintf('%s %s %s', $this->apiKey, 'RS256-hex', $encryptedBody);
 
         return $next(
             $request->withHeader('Signature', $signature)
