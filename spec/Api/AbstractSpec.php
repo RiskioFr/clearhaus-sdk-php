@@ -4,8 +4,8 @@ namespace spec\Clearhaus\Api;
 
 use Clearhaus\Client;
 use PhpSpec\ObjectBehavior;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\Stream;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\Stream;
 
 abstract class AbstractSpec extends ObjectBehavior
 {

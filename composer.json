@@ -37,7 +37,7 @@
   "require-dev": {
     "phpspec/phpspec": "^4.0",
     "phpspec/prophecy": "^1.6.2",
-    "zendframework/zend-diactoros": "^1.6"
+    "laminas/laminas-diactoros": "^1.6 || ^2.0"
   },
   "suggest": {
     "ext-openssl": "Allow to sign requests using RSA signature of the HTTP body."
