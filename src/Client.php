@@ -71,7 +71,7 @@ class Client
         try {
             return $this->api($name);
         } catch (InvalidArgumentException $e) {
-            throw new BadMethodCallException(sprintf('Undefined method called: "%s"', $name));
+            throw new BadMethodCallException(\sprintf('Undefined method called: "%s"', $name));
         }
     }
 
@@ -94,7 +94,7 @@ class Client
                 return new Api\Voids($this);
             default:
                 throw new InvalidArgumentException(
-                    sprintf('Undefined api instance called: "%s"', $name)
+                    \sprintf('Undefined api instance called: "%s"', $name)
                 );
         }
     }

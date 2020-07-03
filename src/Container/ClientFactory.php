@@ -46,7 +46,7 @@ final class ClientFactory
             $builder = new Builder();
         }
 
-        if (isset($config['plugins']) && is_array($config['plugins'])) {
+        if (isset($config['plugins']) && \is_array($config['plugins'])) {
             foreach ($config['plugins'] as $fcqn) {
                 $builder->addPlugin($container->get($fcqn));
             }

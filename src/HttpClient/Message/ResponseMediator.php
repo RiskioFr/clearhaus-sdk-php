@@ -13,12 +13,12 @@ class ResponseMediator
         $body = $response->getBody()->__toString();
         $contentType = $response->getHeaderLine('Content-Type');
 
-        if (strpos($contentType, Client::CONTENT_TYPE) !== 0) {
+        if (\strpos($contentType, Client::CONTENT_TYPE) !== 0) {
             return [];
         }
 
-        $content = json_decode($body, true);
-        if (JSON_ERROR_NONE !== json_last_error()) {
+        $content = \json_decode($body, true);
+        if (JSON_ERROR_NONE !== \json_last_error()) {
             return [];
         }
 
@@ -29,6 +29,6 @@ class ResponseMediator
     {
         $headers = $response->getHeader($name);
 
-        return (string) array_shift($headers);
+        return (string) \array_shift($headers);
     }
 }

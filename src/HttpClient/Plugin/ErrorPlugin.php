@@ -30,7 +30,7 @@ class ErrorPlugin implements Plugin
 
             $content = ResponseMediator::getContent($response);
 
-            if (is_array($content) && isset($content['status'])) {
+            if (\is_array($content) && isset($content['status'])) {
                 if ($content['status']['code'] == 40415) {
                     throw new ApiLimitExceedException();
                 }

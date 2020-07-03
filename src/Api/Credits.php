@@ -13,11 +13,11 @@ class Credits extends AbstractApi
             throw new MissingArgumentException(['amount', 'currency']);
         }
 
-        return $this->post(sprintf('/cards/%s/credits', $cardId), $params);
+        return $this->post(\sprintf('/cards/%s/credits', $cardId), $params);
     }
 
     public function getCredit(string $id) : array
     {
-        return $this->get(sprintf('/credits/%s', $id));
+        return $this->get(\sprintf('/credits/%s', $id));
     }
 }
