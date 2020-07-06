@@ -20,7 +20,6 @@ use phpseclib\Crypt\RSA;
  * @method Api\Accounts accounts()
  * @method Api\Authorizations authorizations()
  * @method Api\Captures captures()
- * @method Api\Cards cards()
  * @method Api\Credits credits()
  * @method Api\Refunds refunds()
  * @method Api\Voids voids()
@@ -84,8 +83,6 @@ class Client
                 return new Api\Authorizations($this);
             case 'captures':
                 return new Api\Captures($this);
-            case 'cards':
-                return new Api\Cards($this);
             case 'credits':
                 return new Api\Credits($this);
             case 'refunds':

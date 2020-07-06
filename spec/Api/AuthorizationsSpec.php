@@ -64,61 +64,6 @@ class AuthorizationsSpec extends AbstractSpec
         $this->shouldThrow(MissingArgumentException::class)->duringAuthorize($params);
     }
 
-    function it_should_create_authorization_from_card_id(Client $client, HttpMethodsClient $httpClient)
-    {
-        $cardId = '84412a34-fa29-4369-a098-0165a80e8fda';
-        $params = [
-            'amount' => 2500,
-            'currency' => 'EUR',
-            'ip' => '1.1.1.1',
-        ];
-
-        $responseBodyAsArray = [
-            'id' => '84412a34-fa29-4369-a098-0165a80e8fda',
-        ];
-
-        $client->getHttpClient()->willReturn($httpClient);
-
-        $httpClient
-            ->post(Argument::type('string'), Argument::type('array'), http_build_query($params))
-            ->willReturn($this->createHttpResponse($responseBodyAsArray));
-
-        $this->authorizeFromCardId($cardId, $params)->shouldReturn($responseBodyAsArray);
-    }
-
-    function it_should_not_create_authorization_from_card_id_without_amount()
-    {
-        $cardId = '84412a34-fa29-4369-a098-0165a80e8fda';
-        $params = [
-            'currency' => 'EUR',
-            'ip' => '1.1.1.1',
-        ];
-
-        $this->shouldThrow(MissingArgumentException::class)->duringAuthorizeFromCardId($cardId, $params);
-    }
-
-    function it_should_not_create_authorization_from_card_id_without_currency()
-    {
-        $cardId = '84412a34-fa29-4369-a098-0165a80e8fda';
-        $params = [
-            'amount' => 2500,
-            'ip' => '1.1.1.1',
-        ];
-
-        $this->shouldThrow(MissingArgumentException::class)->duringAuthorizeFromCardId($cardId, $params);
-    }
-
-    function it_should_not_create_authorization_without_card()
-    {
-        $params = [
-            'amount' => 2500,
-            'currency' => 'EUR',
-            'ip' => '1.1.1.1',
-        ];
-
-        $this->shouldThrow(MissingArgumentException::class)->duringAuthorize($params);
-    }
-
     function it_should_return_authorization(Client $client, HttpMethodsClient $httpClient)
     {
         $authorizationId = '84412a34-fa29-4369-a098-0165a80e8fda';
