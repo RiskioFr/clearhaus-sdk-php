@@ -26,7 +26,7 @@ class ClientSpec extends ObjectBehavior
 
     function it_should_enable_signature(Builder $builder)
     {
-        $builder->addPlugin(Argument::type(Plugin::class))->willReturn(null);
+        $builder->addPlugin(Argument::type(Plugin::class))->shouldBeCalled();
 
         $builder->addPlugin(Argument::type(SignaturePlugin::class))->shouldBeCalled();
 
@@ -35,7 +35,7 @@ class ClientSpec extends ObjectBehavior
 
     function it_should_return_http_client(Builder $builder, HttpMethodsClient $httpMethodsClient)
     {
-        $builder->addPlugin(Argument::type(Plugin::class))->willReturn(null);
+        $builder->addPlugin(Argument::type(Plugin::class))->shouldBeCalled();
 
         $builder->build()->willReturn($httpMethodsClient);
 

@@ -55,7 +55,7 @@ class Client
         ));
     }
 
-    public function enableSignature()
+    public function enableSignature(): void
     {
         $encrypter = new RSA();
         $this->builder->addPlugin(new SignaturePlugin($encrypter, $this->apiKey));

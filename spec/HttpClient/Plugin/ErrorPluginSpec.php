@@ -9,13 +9,13 @@ use Clearhaus\Exception\UnauthorizedException;
 use Clearhaus\Exception\ValidationFailedException;
 use Clearhaus\HttpClient\Plugin\ErrorPlugin;
 use Exception;
+use GuzzleHttp\Psr7;
+use GuzzleHttp\Psr7\Response;
 use Http\Promise\FulfilledPromise;
 use Http\Promise\Promise;
 use Http\Promise\RejectedPromise;
 use PhpSpec\ObjectBehavior;
 use Psr\Http\Message\RequestInterface;
-use Laminas\Diactoros\Response;
-use Laminas\Diactoros\Stream;
 
 class ErrorPluginSpec extends ObjectBehavior
 {
@@ -120,8 +120,7 @@ class ErrorPluginSpec extends ObjectBehavior
 
     private function createHttpResponse(array $body, int $statusCode = 200) : Response
     {
-        $stream = new Stream('php://memory', 'rw');
-        $stream->write(json_encode($body, JSON_FORCE_OBJECT));
+        $stream = Psr7\stream_for(\json_encode($body, JSON_FORCE_OBJECT));
         $stream->rewind();
 
         $httpResponse = (new Response())

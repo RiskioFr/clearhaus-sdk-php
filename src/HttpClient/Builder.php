@@ -67,13 +67,13 @@ class Builder
         return $this->pluginClient;
     }
 
-    public function addPlugin(Plugin $plugin)
+    public function addPlugin(Plugin $plugin): void
     {
         $this->plugins[] = $plugin;
         $this->httpClientModified = true;
     }
 
-    public function removePlugin(string $fqcn)
+    public function removePlugin(string $fqcn): void
     {
         foreach ($this->plugins as $index => $plugin) {
             if ($plugin instanceof $fqcn) {
